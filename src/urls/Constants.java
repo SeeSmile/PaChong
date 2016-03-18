@@ -11,4 +11,9 @@ public class Constants {
 	 * 城外圈类型
 	 */
 	public static final String TYPE_CWQ = "2";
+	
+	/**
+	 * 微播易类型
+	 */
+	public static final String TYPE_WBY = "3";
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -33,9 +34,10 @@ public class WebUtil {
 	public static String sendGET(String url) throws IOException {
         HttpGet httpGet = new HttpGet(url);
         httpGet.addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+        
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
         BufferedReader reader = new BufferedReader(new InputStreamReader(
-                httpResponse.getEntity().getContent()));
+                httpResponse.getEntity().getContent(), "utf-8"));
         String inputLine;
         StringBuffer response = new StringBuffer();
         while ((inputLine = reader.readLine()) != null) {
@@ -48,11 +50,15 @@ public class WebUtil {
     public static String sendPOST(String url, List<NameValuePair> param) throws IOException {
         HttpPost httpPost = new HttpPost(url);
         httpPost.addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-        HttpEntity postParams = new UrlEncodedFormEntity(param);
-        httpPost.setEntity(postParams);
+        if(param != null) {
+        	HttpEntity postParams = new UrlEncodedFormEntity(param);
+            httpPost.setEntity(postParams);
+        }
+        
         CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
+        System.out.println("head:\n" + httpResponse.getAllHeaders().toString());
         BufferedReader reader = new BufferedReader(new InputStreamReader(
-                httpResponse.getEntity().getContent()));
+                httpResponse.getEntity().getContent(), "utf-8"));
         String inputLine;
         StringBuffer response = new StringBuffer();
         while ((inputLine = reader.readLine()) != null) {

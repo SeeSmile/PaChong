@@ -26,6 +26,10 @@ public class CwqHelper extends UrlHelper<PaUrl>{
 	
 	private final String USER_NAME = "lengzhifu";
 	private final String USER_PWD = "wlf2015";
+	
+	/**
+	 * ÑéÖ¤Âë
+	 */
 	private String code;
 	private JTextArea area;
 
@@ -61,10 +65,9 @@ public class CwqHelper extends UrlHelper<PaUrl>{
 		params.add(new BasicNameValuePair("all", ""));
 		params.add(new BasicNameValuePair("flex", "2"));
 		params.add(new BasicNameValuePair("zfjg_type", "2"));
-		params.add(new BasicNameValuePair("p", page+""));
+		params.add(new BasicNameValuePair("p", page + ""));
 		String result = WebUtil.sendPOST(URL_LIST, params);
 		JSONObject jsonObject = new JSONObject(result);
-		System.out.println("getlist:\n" + jsonObject.toString());
 		return jsonObject;
 	}
 	

@@ -8,7 +8,7 @@ public class RuanEntity {
 	 * 普通会员
 	 */
 	private String price_vip;
-	/**
+	/**  
 	 * 普通代理
 	 */
 	private String price_nor;

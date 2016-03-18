@@ -8,6 +8,7 @@ package ui;
 
 import helpers.CwqHelper;
 import helpers.UrlHelper;
+import helpers.WeiBoHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,11 +24,13 @@ import java.util.logging.LogRecord;
 import javax.crypto.spec.IvParameterSpec;
 import javax.swing.ImageIcon;
 import org.apache.http.client.utils.HttpClientUtils;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import urls.Constants;
 import urls.CwqUrl;
 import urls.PaUrl;
 import urls.RuanUrl;
+import urls.WeiBoUrl;
 import utils.WebUtil;
 
 /**
@@ -289,18 +292,31 @@ public class FirstUI extends javax.swing.JFrame {
 
 	private void btn_startMouseClicked(java.awt.event.MouseEvent evt) {
 		String code = et_code.getText().trim();
-		final CwqHelper helper = ((CwqHelper)paurl.getHelper());
-		helper.setCode(code);
-		helper.getTextArea(jTextArea1);
-		new Thread(new Runnable() {
+		if (paurl.getType().equals(Constants.TYPE_CWQ)) {
+			final CwqHelper helper = ((CwqHelper)paurl.getHelper());
+			helper.setCode(code);
+			helper.getTextArea(jTextArea1);
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					helper.doGetData(paurl);
+				}
+			}).start();
 			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				helper.doGetData(paurl);
-			}
-		}).start();
-		
+		} else if(paurl.getType().equals(Constants.TYPE_WBY)) {
+			final WeiBoHelper helper = ((WeiBoHelper)paurl.getHelper());
+			helper.setCode(code);
+			helper.getTextArea(jTextArea1);
+			helper.setKeyTime(key_time);
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					helper.doGetData(paurl);
+				}
+			}).start();
+		}
 	}
 
 	private void btn_searchMouseClicked(java.awt.event.MouseEvent evt) {
@@ -313,9 +329,7 @@ public class FirstUI extends javax.swing.JFrame {
 				
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
 					try {
-//						HttpClientUtil.sendGET("http://www.cwq.com/Owner/Account/login/");
 						WebUtil.downImage(url, file.getName(), file.getParent());
 						ImageIcon icon = new ImageIcon(file.getPath());
 						jl_image.setIcon(icon);
@@ -330,12 +344,40 @@ public class FirstUI extends javax.swing.JFrame {
 				
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
 					paurl.getHelper().getTextArea(jTextArea1);
 					paurl.getHelper().doGetData(paurl);
 				}
 			}).start();
 			
+		} else if(paurl.getType().equals(Constants.TYPE_WBY)) {
+			jp_code.setVisible(true);
+			try {
+				key_time = System.currentTimeMillis() + "";
+				String url_code = "http://chuanbo.weiboyi.com/hwauth/index/captchaajax?callback=jQuery182034221059567835355_1458271600796&_=" + 
+						key_time;
+								
+				String result = WebUtil.sendGET(url_code);
+				int p_start = result.indexOf("{");
+				int p_end = result.indexOf("}");
+				result = result.substring(p_start, p_end + 1);
+				final String url = "http://chuanbo.weiboyi.com" + new JSONObject(result).optString("url");
+				final File file = new File("c:\\images\\" + System.currentTimeMillis() +".jpg");
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						try {
+							WebUtil.downImage(url, file.getName(), file.getParent());
+							ImageIcon icon = new ImageIcon(file.getPath());
+							jl_image.setIcon(icon);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}).start();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 
 	}
@@ -345,6 +387,7 @@ public class FirstUI extends javax.swing.JFrame {
 		list = new ArrayList<PaUrl>();
 		list.add(new RuanUrl());
 		list.add(new CwqUrl());
+		list.add(new WeiBoUrl());
 		int size = list.size();
 		String[] chooses = new String[size];
 		ArrayList<String> texts = new ArrayList<String>();
@@ -420,4 +463,5 @@ public class FirstUI extends javax.swing.JFrame {
 
 	private ArrayList<PaUrl> list;
 	private PaUrl paurl;
+	private String key_time;
 }
