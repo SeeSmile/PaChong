@@ -10,6 +10,8 @@ import helpers.CwqHelper;
 import helpers.UrlHelper;
 import helpers.WeiBoHelper;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -60,22 +62,25 @@ public class FirstUI extends javax.swing.JFrame {
 		jLabel1 = new javax.swing.JLabel();
 		cb_choose = new javax.swing.JComboBox();
 		btn_search = new javax.swing.JButton();
-		jScrollPane1 = new javax.swing.JScrollPane();
-		jTextArea1 = new javax.swing.JTextArea();
-		jLabel2 = new javax.swing.JLabel();
-		tv_state = new javax.swing.JLabel();
 		jp_code = new javax.swing.JPanel();
 		jLabel3 = new javax.swing.JLabel();
 		jl_image = new javax.swing.JLabel();
 		et_code = new javax.swing.JTextField();
 		btn_start = new javax.swing.JButton();
+		jLabel2 = new javax.swing.JLabel();
+		et_startpage = new javax.swing.JTextField();
+		jPanel4 = new javax.swing.JPanel();
+		jLabel4 = new javax.swing.JLabel();
+		tv_state = new javax.swing.JLabel();
+		jScrollPane1 = new javax.swing.JScrollPane();
+		tv_result = new javax.swing.JTextArea();
 		jMenuBar1 = new javax.swing.JMenuBar();
-		jMenu1 = new javax.swing.JMenu();
-		jMenu2 = new javax.swing.JMenu();
+		jMenuBar2 = new javax.swing.JMenuBar();
+		jMenuBar3 = new javax.swing.JMenuBar();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-		jLabel1.setText("\u94fe\u63a5:");
+		jLabel1.setText("\u94fe   \u63a5:");
 
 		cb_choose.setModel(new javax.swing.DefaultComboBoxModel(
 				new String[] { "first" }));
@@ -86,24 +91,22 @@ public class FirstUI extends javax.swing.JFrame {
 				btn_searchMouseClicked(evt);
 			}
 		});
+		btn_search.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btn_searchActionPerformed(evt);
+			}
+		});
 
 		javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(
 				jPanel2);
 		jPanel2.setLayout(jPanel2Layout);
 		jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(
 				javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-				jPanel2Layout
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(jLabel1)
-						.addGap(12, 12, 12)
-						.addComponent(cb_choose,
-								javax.swing.GroupLayout.PREFERRED_SIZE, 153,
-								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(18, 18, 18)
-						.addComponent(btn_search)
-						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE)));
+				jPanel2Layout.createSequentialGroup().addContainerGap()
+						.addComponent(jLabel1).addGap(12, 12, 12)
+						.addComponent(cb_choose, 0, 304, Short.MAX_VALUE)
+						.addGap(18, 18, 18).addComponent(btn_search)
+						.addContainerGap()));
 		jPanel2Layout
 				.setVerticalGroup(jPanel2Layout
 						.createParallelGroup(
@@ -120,29 +123,32 @@ public class FirstUI extends javax.swing.JFrame {
 																javax.swing.GroupLayout.Alignment.BASELINE)
 														.addComponent(jLabel1)
 														.addComponent(
+																btn_search)
+														.addComponent(
 																cb_choose,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
 																javax.swing.GroupLayout.DEFAULT_SIZE,
-																javax.swing.GroupLayout.PREFERRED_SIZE)
-														.addComponent(
-																btn_search))));
-
-		jTextArea1.setColumns(20);
-		jTextArea1.setRows(5);
-		jScrollPane1.setViewportView(jTextArea1);
-
-		jLabel2.setText("\u72b6\u6001:");
-
-		tv_state.setText(" ");
+																javax.swing.GroupLayout.PREFERRED_SIZE))));
 
 		jLabel3.setText("\u4e8c\u7ef4\u7801:");
 
 		et_code.setColumns(5);
 
 		btn_start.setText("\u5f00\u59cb");
+		btn_start.setVerifyInputWhenFocusTarget(false);
 		btn_start.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				btn_startMouseClicked(evt);
+			}
+		});
+
+		jLabel2.setText("\u8d77\u59cb\u9875:");
+
+		et_startpage.setColumns(8);
+		et_startpage.setText("1");
+		et_startpage.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				et_startpageActionPerformed(evt);
 			}
 		});
 
@@ -158,19 +164,32 @@ public class FirstUI extends javax.swing.JFrame {
 										.createSequentialGroup()
 										.addComponent(jLabel3)
 										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(jl_image)
+												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+										.addComponent(
+												jl_image,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												60,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
 										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												84, Short.MAX_VALUE)
+												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 										.addComponent(
 												et_code,
 												javax.swing.GroupLayout.PREFERRED_SIZE,
 												javax.swing.GroupLayout.DEFAULT_SIZE,
 												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+												46, Short.MAX_VALUE)
+										.addComponent(jLabel2)
 										.addGap(18, 18, 18)
+										.addComponent(
+												et_startpage,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												54,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addGap(39, 39, 39)
 										.addComponent(btn_start)
-										.addGap(1, 1, 1)));
+										.addContainerGap()));
 		jp_codeLayout
 				.setVerticalGroup(jp_codeLayout
 						.createParallelGroup(
@@ -178,62 +197,53 @@ public class FirstUI extends javax.swing.JFrame {
 						.addGroup(
 								jp_codeLayout
 										.createSequentialGroup()
-										.addContainerGap()
+										.addContainerGap(
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)
 										.addGroup(
 												jp_codeLayout
 														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.BASELINE)
-														.addComponent(jLabel3)
-														.addComponent(jl_image)
+																javax.swing.GroupLayout.Alignment.TRAILING)
 														.addComponent(
-																et_code,
+																jl_image,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
+																25,
 																javax.swing.GroupLayout.PREFERRED_SIZE)
-														.addComponent(btn_start))
-										.addContainerGap()));
+														.addComponent(jLabel3)
+														.addGroup(
+																jp_codeLayout
+																		.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.BASELINE)
+																		.addComponent(
+																				et_code,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				javax.swing.GroupLayout.DEFAULT_SIZE,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)
+																		.addComponent(
+																				et_startpage,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				23,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)
+																		.addComponent(
+																				jLabel2)
+																		.addComponent(
+																				btn_start)))));
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(
 				jPanel1);
 		jPanel1.setLayout(jPanel1Layout);
-		jPanel1Layout
-				.setHorizontalGroup(jPanel1Layout
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-						.addComponent(jPanel2,
-								javax.swing.GroupLayout.DEFAULT_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE)
-						.addGroup(
-								jPanel1Layout.createSequentialGroup()
-										.addGap(46, 46, 46)
-										.addComponent(tv_state)
-										.addContainerGap(241, Short.MAX_VALUE))
-						.addGroup(
-								jPanel1Layout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addComponent(
-												jp_code,
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)
-										.addContainerGap())
-						.addGroup(
-								javax.swing.GroupLayout.Alignment.TRAILING,
-								jPanel1Layout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addComponent(
-												jScrollPane1,
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												267, Short.MAX_VALUE)
-										.addContainerGap())
-						.addGroup(
-								jPanel1Layout.createSequentialGroup()
-										.addContainerGap()
-										.addComponent(jLabel2)
-										.addContainerGap(252, Short.MAX_VALUE)));
+		jPanel1Layout.setHorizontalGroup(jPanel1Layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addGroup(
+						jPanel1Layout
+								.createSequentialGroup()
+								.addGap(12, 12, 12)
+								.addComponent(jp_code,
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE)));
 		jPanel1Layout
 				.setVerticalGroup(jPanel1Layout
 						.createParallelGroup(
@@ -253,64 +263,133 @@ public class FirstUI extends javax.swing.JFrame {
 												javax.swing.GroupLayout.PREFERRED_SIZE,
 												javax.swing.GroupLayout.DEFAULT_SIZE,
 												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addContainerGap()));
+
+		jLabel4.setText("\u72b6   \u6001:");
+
+		tv_state.setText("    ");
+
+		javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(
+				jPanel4);
+		jPanel4.setLayout(jPanel4Layout);
+		jPanel4Layout
+				.setHorizontalGroup(jPanel4Layout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								jPanel4Layout
+										.createSequentialGroup()
+										.addComponent(jLabel4)
 										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(
-												jScrollPane1,
-												javax.swing.GroupLayout.PREFERRED_SIZE,
-												223,
-												javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(jLabel2)
-										.addGap(91, 91, 91)
-										.addComponent(tv_state)));
+												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+										.addComponent(tv_state)
+										.addContainerGap(307, Short.MAX_VALUE)));
+		jPanel4Layout
+				.setVerticalGroup(jPanel4Layout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								jPanel4Layout
+										.createSequentialGroup()
+										.addGroup(
+												jPanel4Layout
+														.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.BASELINE)
+														.addComponent(jLabel4)
+														.addComponent(tv_state))
+										.addContainerGap(
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)));
 
-		jMenu1.setText("\u6587\u4ef6");
-		jMenuBar1.add(jMenu1);
+		tv_result.setColumns(20);
+		tv_result.setRows(5);
+		jScrollPane1.setViewportView(tv_result);
 
-		jMenu2.setText("\u529f\u80fd");
-		jMenuBar1.add(jMenu2);
-
-		setJMenuBar(jMenuBar1);
+		setJMenuBar(jMenuBar3);
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
 		getContentPane().setLayout(layout);
-		layout.setHorizontalGroup(layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
-				javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-		layout.setVerticalGroup(layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 371,
-				Short.MAX_VALUE));
+		layout.setHorizontalGroup(layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addGroup(
+						layout.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(jPanel4,
+										javax.swing.GroupLayout.PREFERRED_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(68, Short.MAX_VALUE))
+				.addGroup(
+						layout.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(jScrollPane1,
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										430, Short.MAX_VALUE).addContainerGap()));
+		layout.setVerticalGroup(layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout.createSequentialGroup()
+								.addComponent(jPanel1,
+										javax.swing.GroupLayout.PREFERRED_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(
+										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(jPanel4,
+										javax.swing.GroupLayout.PREFERRED_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(
+										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(jScrollPane1,
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										178, Short.MAX_VALUE)));
 
 		pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
 
+	private void et_startpageActionPerformed(java.awt.event.ActionEvent evt) {
+		// TODO add your handling code here:
+	}
+
+	private void btn_searchActionPerformed(java.awt.event.ActionEvent evt) {
+		// TODO add your handling code here:
+	}
+
 	private void btn_startMouseClicked(java.awt.event.MouseEvent evt) {
 		String code = et_code.getText().trim();
+		String page = et_startpage.getText();
+		if(page == null || page.trim().length() == 0) {
+			tv_state.setText("请输入请求的起始页");
+			return;
+		}
 		if (paurl.getType().equals(Constants.TYPE_CWQ)) {
-			final CwqHelper helper = ((CwqHelper)paurl.getHelper());
+			final CwqHelper helper = ((CwqHelper) paurl.getHelper());
 			helper.setCode(code);
-			helper.getTextArea(jTextArea1);
+			helper.getTextArea(tv_result);
+			helper.setState(tv_state);
+			helper.setStartPage(Integer.valueOf(page));
 			new Thread(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					helper.doGetData(paurl);
 				}
 			}).start();
-			
-		} else if(paurl.getType().equals(Constants.TYPE_WBY)) {
-			final WeiBoHelper helper = ((WeiBoHelper)paurl.getHelper());
+
+		} else if (paurl.getType().equals(Constants.TYPE_WBY)) {
+			final WeiBoHelper helper = ((WeiBoHelper) paurl.getHelper());
 			helper.setCode(code);
-			helper.getTextArea(jTextArea1);
+			helper.getTextArea(tv_result);
+			helper.setState(tv_state);
+			helper.setStartPage(Integer.valueOf(page));
 			helper.setKeyTime(key_time);
 			new Thread(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					helper.doGetData(paurl);
@@ -320,13 +399,16 @@ public class FirstUI extends javax.swing.JFrame {
 	}
 
 	private void btn_searchMouseClicked(java.awt.event.MouseEvent evt) {
+		tv_result.setText("");
 		paurl = list.get(cb_choose.getSelectedIndex());
 		if (paurl.getType().equals(Constants.TYPE_CWQ)) {
 			jp_code.setVisible(true);
-			final String url = "http://www.cwq.com/Owner/Account/verify/#" + System.currentTimeMillis();
-			final File file = new File("c:\\images\\" + System.currentTimeMillis() +".jpg");
+			final String url = "http://www.cwq.com/Owner/Account/verify/#"
+					+ System.currentTimeMillis();
+			final File file = new File("c:\\images\\"
+					+ System.currentTimeMillis() + ".jpg");
 			new Thread(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					try {
@@ -338,36 +420,40 @@ public class FirstUI extends javax.swing.JFrame {
 					}
 				}
 			}).start();
-			
+
 		} else if (paurl.getType().equals(Constants.TYPE_RUANWEN)) {
 			new Thread(new Runnable() {
-				
+
 				@Override
 				public void run() {
-					paurl.getHelper().getTextArea(jTextArea1);
+					paurl.getHelper().getTextArea(tv_result);
+					paurl.getHelper().setState(tv_state);
 					paurl.getHelper().doGetData(paurl);
 				}
 			}).start();
-			
-		} else if(paurl.getType().equals(Constants.TYPE_WBY)) {
+
+		} else if (paurl.getType().equals(Constants.TYPE_WBY)) {
 			jp_code.setVisible(true);
 			try {
 				key_time = System.currentTimeMillis() + "";
-				String url_code = "http://chuanbo.weiboyi.com/hwauth/index/captchaajax?callback=jQuery182034221059567835355_1458271600796&_=" + 
-						key_time;
-								
+				String url_code = "http://chuanbo.weiboyi.com/hwauth/index/captchaajax?callback=jQuery182034221059567835355_1458271600796&_="
+						+ key_time;
+
 				String result = WebUtil.sendGET(url_code);
 				int p_start = result.indexOf("{");
 				int p_end = result.indexOf("}");
 				result = result.substring(p_start, p_end + 1);
-				final String url = "http://chuanbo.weiboyi.com" + new JSONObject(result).optString("url");
-				final File file = new File("c:\\images\\" + System.currentTimeMillis() +".jpg");
+				final String url = "http://chuanbo.weiboyi.com"
+						+ new JSONObject(result).optString("url");
+				final File file = new File("c:\\images\\"
+						+ System.currentTimeMillis() + ".jpg");
 				new Thread(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						try {
-							WebUtil.downImage(url, file.getName(), file.getParent());
+							WebUtil.downImage(url, file.getName(),
+									file.getParent());
 							ImageIcon icon = new ImageIcon(file.getPath());
 							jl_image.setIcon(icon);
 						} catch (Exception e) {
@@ -383,6 +469,21 @@ public class FirstUI extends javax.swing.JFrame {
 	}
 
 	private void initView() {
+		//设置窗口的属性
+		setTitle("蜘蛛侠");
+		setSize(600, 400);
+		int windowWidth = this.getWidth(); //获得窗口宽
+		int windowHeight = this.getHeight(); //获得窗口高
+		Toolkit kit = Toolkit.getDefaultToolkit(); //定义工具包
+		Dimension screenSize = kit.getScreenSize(); //获取屏幕的尺寸
+		int screenWidth = screenSize.width; //获取屏幕的宽
+		int screenHeight = screenSize.height; //获取屏幕的高
+		this.setLocation(screenWidth / 2 - windowWidth / 2, screenHeight / 2
+				- windowHeight / 2);
+
+		/**
+		 * 设置显示的数据
+		 */
 		jp_code.setVisible(false);
 		list = new ArrayList<PaUrl>();
 		list.add(new RuanUrl());
@@ -445,19 +546,22 @@ public class FirstUI extends javax.swing.JFrame {
 	private javax.swing.JButton btn_start;
 	private javax.swing.JComboBox cb_choose;
 	private javax.swing.JTextField et_code;
+	private javax.swing.JTextField et_startpage;
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel3;
+	private javax.swing.JLabel jLabel4;
 	private javax.swing.JLayeredPane jLayeredPane1;
-	private javax.swing.JMenu jMenu1;
-	private javax.swing.JMenu jMenu2;
 	private javax.swing.JMenuBar jMenuBar1;
+	private javax.swing.JMenuBar jMenuBar2;
+	private javax.swing.JMenuBar jMenuBar3;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
+	private javax.swing.JPanel jPanel4;
 	private javax.swing.JScrollPane jScrollPane1;
-	private javax.swing.JTextArea jTextArea1;
 	private javax.swing.JLabel jl_image;
 	private javax.swing.JPanel jp_code;
+	private javax.swing.JTextArea tv_result;
 	private javax.swing.JLabel tv_state;
 	// End of variables declaration//GEN-END:variables
 

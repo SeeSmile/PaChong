@@ -5,12 +5,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public abstract class DBHelper {
+public class DBHelper {
 	
-	public static final String url = "jdbc:mysql://192.168.0.196/media";
+	public static final String ip = "192.168.0.196";
+	public static final String url = "jdbc:mysql://" + ip + "/media?characterEncoding=utf8";
 	public static final String name = "com.mysql.jdbc.Driver";
 	public static final String user = "media";
 	public static final String password = "mediamedia";
+	public static final String SQL_INSERT = "insert into information (type,type_name,name,fans,weixin_id,url_face,url_code" +
+			",price_one,price_two,price_three,info_time) values (?,?,?,?,?,?,?,?,?,?,?)";
 
 	public Connection conn = null;
 	public PreparedStatement pst = null;
@@ -36,5 +39,9 @@ public abstract class DBHelper {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Float toPrice(String price) {
+		return Float.valueOf(price.substring(0, price.length() - 2));
 	}
 }

@@ -56,7 +56,7 @@ public class WebUtil {
         }
         
         CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
-        System.out.println("head:\n" + httpResponse.getAllHeaders().toString());
+    
         BufferedReader reader = new BufferedReader(new InputStreamReader(
                 httpResponse.getEntity().getContent(), "utf-8"));
         String inputLine;

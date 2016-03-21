@@ -1,7 +1,13 @@
 package data;
 
-public class RuanEntity {
+import urls.Constants;
+
+public class RuanEntity extends BaseEntity {
 	
+	public RuanEntity(String type) {
+		super(Constants.TYPE_RUANWEN);
+	}
+
 	private String name;
 	private String url;
 	/**
