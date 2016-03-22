@@ -52,7 +52,7 @@ public class RuanHelper extends UrlHelper<PaUrl>{
 					entity.setPrice_hei(trs.get(INDEX_HEI).text());
 					entity.setPrice_nor(trs.get(INDEX_NOR).text());
 					entity.setPrice_vip(trs.get(INDEX_VIP).text());
-					db.addInfo(entity);
+//					db.addInfo(entity);
 					show(entity.toString());
 				} catch (Exception e) {
 					show("±®¥Ì¡À:" + e.toString());
@@ -64,24 +64,4 @@ public class RuanHelper extends UrlHelper<PaUrl>{
 		}
 	}
 
-	@Override
-	public void setState(JLabel jl) {
-		this.jlb = jl;
-	}
-	
-	public void showState(String text) {
-		jlb.setText(text);
-	}
-	
-	private void show(String text) {
-		area.append("\n" + text);
-		int length = area.getText().length();
-		area.setCaretPosition(length);
-	}
-
-	@Override
-	public void getTextArea(JTextArea area) {
-		// TODO Auto-generated method stub
-		this.area = area;
-	}
 }

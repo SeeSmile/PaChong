@@ -67,31 +67,5 @@ public class WebUtil {
         reader.close();
         return response.toString();
     }
-    
-    public static void downImage(String url, String filename,
-			String savePath) throws ClientProtocolException, IOException {
-    	HttpGet httpGet = new HttpGet(url);
-        httpGet.addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-        CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
-        // 输入流  
- 		InputStream is = httpResponse.getEntity().getContent();
- 		// 1K的数据缓冲  
- 		byte[] bs = new byte[1024];
- 		// 读取到的数据长度  
- 		int len;
- 		// 输出的文件流  
- 		File sf = new File(savePath);
- 		if (!sf.exists()) {
- 			sf.mkdirs();
- 		}
- 		OutputStream os = new FileOutputStream(sf.getPath() + "\\" + filename);
- 		// 开始读取  
- 		while ((len = is.read(bs)) != -1) {
- 			os.write(bs, 0, len);
- 		}
- 		// 完毕，关闭所有链接  
- 		os.close();
- 		is.close();
-    }
   
 }

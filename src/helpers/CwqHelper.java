@@ -94,26 +94,6 @@ public class CwqHelper extends UrlHelper<PaUrl>{
 		this.code = code;
 	}
 
-	@Override
-	public void setState(JLabel jl) {
-		this.jlb = jl;
-	}
-	
-	public void showState(String text) {
-		jlb.setText(text);
-	}
-
-	private void show(String text) {
-		area.append("\n" + text);
-		int length = area.getText().length();
-		area.setCaretPosition(length);
-	}
-
-	@Override
-	public void getTextArea(JTextArea area) {
-		this.area = area;
-	}
-	
 	public void setStartPage(int page) {
 		this.start_page = page;
 	}

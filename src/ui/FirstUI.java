@@ -12,6 +12,7 @@ import helpers.WeiBoHelper;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ItemEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,7 +26,10 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import javax.crypto.spec.IvParameterSpec;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+
 import org.apache.http.client.utils.HttpClientUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import urls.Constants;
@@ -33,6 +37,8 @@ import urls.CwqUrl;
 import urls.PaUrl;
 import urls.RuanUrl;
 import urls.WeiBoUrl;
+import utils.FileUtil;
+import utils.StringUtil;
 import utils.WebUtil;
 
 /**
@@ -62,6 +68,8 @@ public class FirstUI extends javax.swing.JFrame {
 		jLabel1 = new javax.swing.JLabel();
 		cb_choose = new javax.swing.JComboBox();
 		btn_search = new javax.swing.JButton();
+		jLabel5 = new javax.swing.JLabel();
+		cb_type = new javax.swing.JComboBox();
 		jp_code = new javax.swing.JPanel();
 		jLabel3 = new javax.swing.JLabel();
 		jl_image = new javax.swing.JLabel();
@@ -84,6 +92,11 @@ public class FirstUI extends javax.swing.JFrame {
 
 		cb_choose.setModel(new javax.swing.DefaultComboBoxModel(
 				new String[] { "first" }));
+		cb_choose.addItemListener(new java.awt.event.ItemListener() {
+			public void itemStateChanged(java.awt.event.ItemEvent evt) {
+				cb_chooseItemStateChanged(evt);
+			}
+		});
 
 		btn_search.setText("\u5f00\u59cb");
 		btn_search.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -91,22 +104,43 @@ public class FirstUI extends javax.swing.JFrame {
 				btn_searchMouseClicked(evt);
 			}
 		});
-		btn_search.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btn_searchActionPerformed(evt);
-			}
-		});
+
+		jLabel5.setText("\u7c7b   \u578b:");
+
+		cb_type.setModel(new javax.swing.DefaultComboBoxModel(LIST_TYPE_RWJ));
 
 		javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(
 				jPanel2);
 		jPanel2.setLayout(jPanel2Layout);
-		jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-				jPanel2Layout.createSequentialGroup().addContainerGap()
-						.addComponent(jLabel1).addGap(12, 12, 12)
-						.addComponent(cb_choose, 0, 304, Short.MAX_VALUE)
-						.addGap(18, 18, 18).addComponent(btn_search)
-						.addContainerGap()));
+		jPanel2Layout
+				.setHorizontalGroup(jPanel2Layout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								jPanel2Layout
+										.createSequentialGroup()
+										.addContainerGap()
+										.addComponent(jLabel1)
+										.addGap(12, 12, 12)
+										.addComponent(
+												cb_choose,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												124,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addGap(38, 38, 38)
+										.addComponent(jLabel5)
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+										.addComponent(
+												cb_type,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												61,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+												48, Short.MAX_VALUE)
+										.addComponent(btn_search)
+										.addContainerGap()));
 		jPanel2Layout
 				.setVerticalGroup(jPanel2Layout
 						.createParallelGroup(
@@ -128,6 +162,12 @@ public class FirstUI extends javax.swing.JFrame {
 																cb_choose,
 																javax.swing.GroupLayout.PREFERRED_SIZE,
 																javax.swing.GroupLayout.DEFAULT_SIZE,
+																javax.swing.GroupLayout.PREFERRED_SIZE)
+														.addComponent(jLabel5)
+														.addComponent(
+																cb_type,
+																javax.swing.GroupLayout.PREFERRED_SIZE,
+																javax.swing.GroupLayout.DEFAULT_SIZE,
 																javax.swing.GroupLayout.PREFERRED_SIZE))));
 
 		jLabel3.setText("\u4e8c\u7ef4\u7801:");
@@ -146,11 +186,6 @@ public class FirstUI extends javax.swing.JFrame {
 
 		et_startpage.setColumns(8);
 		et_startpage.setText("1");
-		et_startpage.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				et_startpageActionPerformed(evt);
-			}
-		});
 
 		javax.swing.GroupLayout jp_codeLayout = new javax.swing.GroupLayout(
 				jp_code);
@@ -163,8 +198,7 @@ public class FirstUI extends javax.swing.JFrame {
 								jp_codeLayout
 										.createSequentialGroup()
 										.addComponent(jLabel3)
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+										.addGap(12, 12, 12)
 										.addComponent(
 												jl_image,
 												javax.swing.GroupLayout.PREFERRED_SIZE,
@@ -177,19 +211,18 @@ public class FirstUI extends javax.swing.JFrame {
 												javax.swing.GroupLayout.PREFERRED_SIZE,
 												javax.swing.GroupLayout.DEFAULT_SIZE,
 												javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												46, Short.MAX_VALUE)
+										.addGap(36, 36, 36)
 										.addComponent(jLabel2)
-										.addGap(18, 18, 18)
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
 										.addComponent(
 												et_startpage,
 												javax.swing.GroupLayout.PREFERRED_SIZE,
-												54,
+												61,
 												javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addGap(39, 39, 39)
+										.addGap(46, 46, 46)
 										.addComponent(btn_start)
-										.addContainerGap()));
+										.addContainerGap(14, Short.MAX_VALUE)));
 		jp_codeLayout
 				.setVerticalGroup(jp_codeLayout
 						.createParallelGroup(
@@ -197,37 +230,37 @@ public class FirstUI extends javax.swing.JFrame {
 						.addGroup(
 								jp_codeLayout
 										.createSequentialGroup()
-										.addContainerGap(
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)
+										.addContainerGap()
 										.addGroup(
 												jp_codeLayout
 														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.TRAILING)
-														.addComponent(
-																jl_image,
-																javax.swing.GroupLayout.PREFERRED_SIZE,
-																25,
-																javax.swing.GroupLayout.PREFERRED_SIZE)
-														.addComponent(jLabel3)
+																javax.swing.GroupLayout.Alignment.LEADING)
 														.addGroup(
 																jp_codeLayout
 																		.createParallelGroup(
 																				javax.swing.GroupLayout.Alignment.BASELINE)
+																		.addComponent(
+																				jLabel3)
 																		.addComponent(
 																				et_code,
 																				javax.swing.GroupLayout.PREFERRED_SIZE,
 																				javax.swing.GroupLayout.DEFAULT_SIZE,
 																				javax.swing.GroupLayout.PREFERRED_SIZE)
 																		.addComponent(
-																				et_startpage,
-																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				23,
-																				javax.swing.GroupLayout.PREFERRED_SIZE)
+																				btn_start)
 																		.addComponent(
 																				jLabel2)
 																		.addComponent(
-																				btn_start)))));
+																				et_startpage,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				23,
+																				javax.swing.GroupLayout.PREFERRED_SIZE))
+														.addComponent(
+																jl_image,
+																javax.swing.GroupLayout.PREFERRED_SIZE,
+																25,
+																javax.swing.GroupLayout.PREFERRED_SIZE))
+										.addContainerGap()));
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(
 				jPanel1);
@@ -262,8 +295,7 @@ public class FirstUI extends javax.swing.JFrame {
 												jp_code,
 												javax.swing.GroupLayout.PREFERRED_SIZE,
 												javax.swing.GroupLayout.DEFAULT_SIZE,
-												javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addContainerGap()));
+												javax.swing.GroupLayout.PREFERRED_SIZE)));
 
 		jLabel4.setText("\u72b6   \u6001:");
 
@@ -336,8 +368,7 @@ public class FirstUI extends javax.swing.JFrame {
 										javax.swing.GroupLayout.PREFERRED_SIZE,
 										javax.swing.GroupLayout.DEFAULT_SIZE,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(
-										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addGap(18, 18, 18)
 								.addComponent(jPanel4,
 										javax.swing.GroupLayout.PREFERRED_SIZE,
 										javax.swing.GroupLayout.DEFAULT_SIZE,
@@ -345,25 +376,39 @@ public class FirstUI extends javax.swing.JFrame {
 								.addPreferredGap(
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 								.addComponent(jScrollPane1,
+										javax.swing.GroupLayout.PREFERRED_SIZE,
+										223,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(
 										javax.swing.GroupLayout.DEFAULT_SIZE,
-										178, Short.MAX_VALUE)));
+										Short.MAX_VALUE)));
 
 		pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
 
-	private void et_startpageActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-	}
+	private void cb_chooseItemStateChanged(java.awt.event.ItemEvent evt) {
+		//当选择完成时，判断选中的类型
+		if (evt.getStateChange() == ItemEvent.SELECTED) {
+			String type = list.get(cb_choose.getSelectedIndex()).getType();
+			if (type.equals(Constants.TYPE_RUANWEN)) {
+				cb_type.setModel(new javax.swing.DefaultComboBoxModel(
+						LIST_TYPE_RWJ));
+			} else if (type.equals(Constants.TYPE_CWQ)) {
+				cb_type.setModel(new javax.swing.DefaultComboBoxModel(
+						LIST_TYPE_CWQ));
+			} else {
+				cb_type.setModel(new javax.swing.DefaultComboBoxModel(
+						LIST_TYPE_WBY));
+			}
+		}
 
-	private void btn_searchActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
 	}
 
 	private void btn_startMouseClicked(java.awt.event.MouseEvent evt) {
 		String code = et_code.getText().trim();
 		String page = et_startpage.getText();
-		if(page == null || page.trim().length() == 0) {
+		if (page == null || page.trim().length() == 0) {
 			tv_state.setText("请输入请求的起始页");
 			return;
 		}
@@ -389,7 +434,6 @@ public class FirstUI extends javax.swing.JFrame {
 			helper.setStartPage(Integer.valueOf(page));
 			helper.setKeyTime(key_time);
 			new Thread(new Runnable() {
-
 				@Override
 				public void run() {
 					helper.doGetData(paurl);
@@ -403,20 +447,21 @@ public class FirstUI extends javax.swing.JFrame {
 		paurl = list.get(cb_choose.getSelectedIndex());
 		if (paurl.getType().equals(Constants.TYPE_CWQ)) {
 			jp_code.setVisible(true);
-			final String url = "http://www.cwq.com/Owner/Account/verify/#"
-					+ System.currentTimeMillis();
-			final File file = new File("c:\\images\\"
-					+ System.currentTimeMillis() + ".jpg");
 			new Thread(new Runnable() {
 
 				@Override
 				public void run() {
 					try {
-						WebUtil.downImage(url, file.getName(), file.getParent());
+						//下载二维码
+						tv_state.setText("正在获取二维码...");
+						String url = Constants.url + System.currentTimeMillis();
+						File file = new File("c:\\images\\" + System.currentTimeMillis() + ".jpg");
+						FileUtil.downloadFile(url, file.getName(), file.getParent());
 						ImageIcon icon = new ImageIcon(file.getPath());
 						jl_image.setIcon(icon);
+						tv_state.setText("请输入验证码");
 					} catch (Exception e) {
-						e.printStackTrace();
+						tv_state.setText("获取二维码失败");
 					}
 				}
 			}).start();
@@ -434,38 +479,35 @@ public class FirstUI extends javax.swing.JFrame {
 
 		} else if (paurl.getType().equals(Constants.TYPE_WBY)) {
 			jp_code.setVisible(true);
-			try {
-				key_time = System.currentTimeMillis() + "";
-				String url_code = "http://chuanbo.weiboyi.com/hwauth/index/captchaajax?callback=jQuery182034221059567835355_1458271600796&_="
-						+ key_time;
-
-				String result = WebUtil.sendGET(url_code);
-				int p_start = result.indexOf("{");
-				int p_end = result.indexOf("}");
-				result = result.substring(p_start, p_end + 1);
-				final String url = "http://chuanbo.weiboyi.com"
-						+ new JSONObject(result).optString("url");
-				final File file = new File("c:\\images\\"
-						+ System.currentTimeMillis() + ".jpg");
-				new Thread(new Runnable() {
-
-					@Override
-					public void run() {
-						try {
-							WebUtil.downImage(url, file.getName(),
-									file.getParent());
-							ImageIcon icon = new ImageIcon(file.getPath());
-							jl_image.setIcon(icon);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					//获取二维码的链接
+					tv_state.setText("正在获取二维码");
+					key_time = System.currentTimeMillis() + "";
+					String url_code = Constants.URL_WBY_CODE + key_time;
+					String result;
+					try {
+						result = WebUtil.sendGET(url_code);
+						//对返回的信息进行提取
+						result = StringUtil.getSimpleString(result);
+						//拼接二维码的 URL
+						final String url = "http://chuanbo.weiboyi.com"
+								+ new JSONObject(result).optString("url");
+						final File file = FileUtil.createCodeFile();
+						FileUtil.downloadFile(url, file.getName(),
+								file.getParent());
+						ImageIcon icon = new ImageIcon(file.getPath());
+						jl_image.setIcon(icon);
+						tv_state.setText("请输入二维码");
+					} catch (IOException e) {
+						tv_state.setText("连接网络失败");
+					} catch (JSONException e) {
+						tv_state.setText("解析信息出现问题，请重试");
 					}
-				}).start();
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
+				}
+			}).start();
 		}
-
 	}
 
 	private void initView() {
@@ -480,10 +522,7 @@ public class FirstUI extends javax.swing.JFrame {
 		int screenHeight = screenSize.height; //获取屏幕的高
 		this.setLocation(screenWidth / 2 - windowWidth / 2, screenHeight / 2
 				- windowHeight / 2);
-
-		/**
-		 * 设置显示的数据
-		 */
+		//初始化界面的UI
 		jp_code.setVisible(false);
 		list = new ArrayList<PaUrl>();
 		list.add(new RuanUrl());
@@ -499,35 +538,7 @@ public class FirstUI extends javax.swing.JFrame {
 		cb_choose.setModel(new javax.swing.DefaultComboBoxModel(chooses));
 	}
 
-	public static void download(String urlString, String filename,
-			String savePath) throws Exception {
-		// 构造URL  
-		URL url = new URL(urlString);
-		// 打开连接  
-		URLConnection con = url.openConnection();
-		//设置请求超时为5s  
-		con.setConnectTimeout(5 * 1000);
-		// 输入流  
-		InputStream is = con.getInputStream();
-
-		// 1K的数据缓冲  
-		byte[] bs = new byte[1024];
-		// 读取到的数据长度  
-		int len;
-		// 输出的文件流  
-		File sf = new File(savePath);
-		if (!sf.exists()) {
-			sf.mkdirs();
-		}
-		OutputStream os = new FileOutputStream(sf.getPath() + "\\" + filename);
-		// 开始读取  
-		while ((len = is.read(bs)) != -1) {
-			os.write(bs, 0, len);
-		}
-		// 完毕，关闭所有链接  
-		os.close();
-		is.close();
-	}
+	
 
 	/**
 	 * @param args the command line arguments
@@ -545,12 +556,14 @@ public class FirstUI extends javax.swing.JFrame {
 	private javax.swing.JButton btn_search;
 	private javax.swing.JButton btn_start;
 	private javax.swing.JComboBox cb_choose;
+	private javax.swing.JComboBox cb_type;
 	private javax.swing.JTextField et_code;
 	private javax.swing.JTextField et_startpage;
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel3;
 	private javax.swing.JLabel jLabel4;
+	private javax.swing.JLabel jLabel5;
 	private javax.swing.JLayeredPane jLayeredPane1;
 	private javax.swing.JMenuBar jMenuBar1;
 	private javax.swing.JMenuBar jMenuBar2;
@@ -566,6 +579,29 @@ public class FirstUI extends javax.swing.JFrame {
 	// End of variables declaration//GEN-END:variables
 
 	private ArrayList<PaUrl> list;
+
+	/**
+	 * 城外圈可获取的数据类型
+	 */
+	private final String[] LIST_TYPE_CWQ = { "微   信", "微   博", "朋友圈", "新   闻" };
+
+	/**
+	 * 微播易可获取的数据类型
+	 */
+	private final String[] LIST_TYPE_WBY = { "微   信", "微   博", "朋友圈" };
+
+	/**
+	 * 软文街可获取的数据类型
+	 */
+	private final String[] LIST_TYPE_RWJ = { "软   文" };
+	
+	/**
+	 * 获取数据的类型
+	 */
 	private PaUrl paurl;
+	
+	/**
+	 * 获取微博易数据时需要传入获取验证码时间戳的数据
+	 */
 	private String key_time;
 }
